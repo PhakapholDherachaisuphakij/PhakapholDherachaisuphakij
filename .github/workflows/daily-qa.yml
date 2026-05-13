@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-and-commit:
+  qa-automation:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -20,33 +20,32 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install Dependencies
+    - name: Install Robot Framework
       run: |
         pip install robotframework robotframework-seleniumlibrary
 
-    - name: Run Robot Framework & Manage Assets
+    - name: Execute Tests
       run: |
-        # สร้างโฟลเดอร์ถ้ายังไม่มี
+        # สร้างโฟลเดอร์พักไฟล์
         mkdir -p qa-reports
-        
-        # ลบ screenshot เดิมทิ้งก่อนรัน เพื่อไม่ให้สะสมจนรก
+        # ลบไฟล์ภาพเก่าออกให้หมดเพื่อความสะอาด (จะไม่สะสมจนรก)
         rm -f qa-reports/*.png
-        
-        # รันเทสต์
-        robot -d qa-reports tests/health_check.robot || echo "Tests failed but continuing to commit"
-        
-        # สร้าง timestamp เพื่อให้เกิดการ Commit แน่นอน
-        echo "Last QA Check: $(date)" > qa-reports/status.txt
+        # รันสคริปต์ (ใช้ || true เพื่อให้ Workflow เดินหน้าต่อแม้เทสต์จะ FAIL)
+        robot -d qa-reports tests/health_check.robot || true
+        # สร้างไฟล์สถานะเพื่อบังคับให้เกิดการ Commit ทุกวัน
+        echo "Check Date: $(date)" > qa-reports/status.txt
 
-    - name: Commit and Push
+    - name: Commit and Push to Profile
       run: |
+        # ตั้งค่าตัวตนให้เป็นคุณ Phakaphol เพื่อเอา Streak
         git config --local user.email "pkdhera9@gmail.com"
         git config --local user.name "PhakapholDherachaisuphakij"
         
-        # Add เฉพาะไฟล์ที่จำเป็น
-        git add qa-reports/latest_homepage.png qa-reports/latest_ranking.png qa-reports/status.txt
+        # เพิ่มไฟล์เข้า Git (ใช้ชื่อโฟลเดอร์เพื่อกัน Error 128)
+        git add qa-reports/
         
-        # บังคับ Commit แม้ไฟล์ภาพจะชื่อเดิม แต่เนื้อหาใน status.txt จะเปลี่ยนทุกวัน
-        git commit -m "chore(qa): daily health check $(date +'%Y-%m-%d') [skip ci]" || echo "No changes"
+        # ทำการ Commit พร้อมระบุเวลา (เพื่อให้ Message ไม่ซ้ำกันในแต่ละวัน)
+        git commit -m "chore(qa): update health check report $(date +'%Y-%m-%d %H:%M') [skip ci]" || echo "No changes"
         
+        # Push กลับไปที่ GitHub
         git push

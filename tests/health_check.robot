@@ -6,27 +6,33 @@ ${URL}        https://pk-movie-hub.vercel.app/
 ${BROWSER}    headlesschrome
 
 *** Test Cases ***
-Verify Homepage and Check Top 10
-    [Documentation]    เช็คหน้าแรกและตรวจสอบส่วนของ Top 10 Ranking
+Verify PK Movie Hub Full Flow
+    [Documentation]    ตรวจสอบหน้าแรกและโครงสร้างตาราง Ranking ในหน้า Collection
     Open Browser    ${URL}    ${BROWSER}
-    Set Window Size    1920    2000    # ขยายหน้าจอให้ยาวขึ้นเพื่อเห็น Ranking
+    Set Window Size    1440    2500    # ตั้งความยาวหน้าจอให้ครอบคลุมเนื้อหาทั้งหมด
     
-    # เช็คหัวข้อหน้าแรก
-    Wait Until Page Contains Element    xpath=//h1[contains(text(), 'My Personal Series Collection')]    timeout=15s
+    # --- STEP 1: หน้าแรก ---
+    Wait Until Page Contains    My Personal Series Collection    timeout=30s
     Capture Page Screenshot    qa-reports/latest_homepage.png
 
-    # กดปุ่มเข้าหน้า Collection
+    # --- STEP 2: เข้าหน้า Collection ---
     Click Element    xpath=//button[contains(text(), "LET'S STARTED")]
-    Wait Until Page Contains    PK'FLIX    timeout=15s
-
-    # เลื่อนลงไปหา Ranking และเช็คว่ามี Rank #1 โชว์ไหม
-    Scroll Element Into View    xpath=//h2[contains(text(), 'PK Top 10 Ranking')]
-    Wait Until Page Contains Element    xpath=//span[contains(text(), '#1')]    timeout=10s
+    Wait Until Page Contains    PK'FLIX    timeout=30s
     
-    # เช็คว่าเรื่องที่ติดอันดับ 1 คือ Twinkling Watermelon หรือไม่ (ตามข้อมูลที่คุณให้มา)
+    # --- STEP 3: เช็คโครงสร้าง Ranking (Table/List) ---
+    # เลื่อนไปที่ส่วน Ranking
+    Scroll Element Into View    class:tier-title
+    Wait Until Element Is Visible    class:ranking-list    timeout=15s
+    
+    # ตรวจสอบว่ามี Ranking Card อย่างน้อย 10 ใบ (เช็คความครบถ้วนของข้อมูล)
+    Page Should Contain Element    xpath=//div[contains(@class, 'ranking-card')]    limit=10
+    
+    # ตรวจสอบโครงสร้างภายใน Card อันดับ 1 (ต้องมีเลข Rank, ชื่อเรื่อง, และเรตติ้ง)
+    Element Should Contain    xpath=//div[contains(@class, 'ranking-card')][1]    #1
     Element Should Contain    xpath=//div[contains(@class, 'ranking-card')][1]    Twinkling Watermelon
+    Element Should Contain    xpath=//div[contains(@class, 'ranking-card')][1]    10.0
     
-    # บันทึกภาพล่าสุดของ Ranking ไว้ (จะบันทึกทับชื่อเดิมเสมอ ไม่รก)
-    Capture Page Screenshot    qa-reports/latest_ranking.png
+    # --- STEP 4: เก็บภาพผลลัพธ์ ---
+    Capture Page Screenshot    qa-reports/latest_ranking_structure.png
     
     [Teardown]    Close Browser
