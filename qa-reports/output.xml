@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.4.2 (Python 3.10.20 on linux)" generated="2026-05-13T09:15:08.381087" rpa="false" schemaversion="5">
+<suite id="s1" name="Health Check" source="/home/runner/work/PhakapholDherachaisuphakij/PhakapholDherachaisuphakij/tests/health_check.robot">
+<test id="s1-t1" name="Verify PK Movie Hub Full Flow" line="9">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2026-05-13T09:15:08.694760" level="INFO">Opening browser 'headlesschrome' to base url 'https://pk-movie-hub.vercel.app/'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2026-05-13T09:15:08.694346" elapsed="6.039145"/>
+</kw>
+<kw name="Set Window Size" owner="SeleniumLibrary">
+<arg>1440</arg>
+<arg>2500</arg>
+<doc>Sets current windows size to given ``width`` and ``height``.</doc>
+<status status="PASS" start="2026-05-13T09:15:14.733977" elapsed="0.020098"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>My Personal Series Collection</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-13T09:15:14.754375" elapsed="0.073741"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<msg time="2026-05-13T09:15:15.457822" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="qa-reports/latest_homepage.png"&gt;&lt;img src="qa-reports/latest_homepage.png" width="800px"&gt;&lt;/a&gt;</msg>
+<arg>qa-reports/latest_homepage.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="PASS" start="2026-05-13T09:15:14.828550" elapsed="0.629499"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2026-05-13T09:15:15.458906" level="INFO">Clicking element 'xpath=//button[contains(text(), "LET'S STARTED")]'.</msg>
+<arg>xpath=//button[contains(text(), "LET'S STARTED")]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2026-05-13T09:15:15.458351" elapsed="0.144490"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>PK'FLIX</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2026-05-13T09:15:15.603186" elapsed="1.047186"/>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<msg time="2026-05-13T09:15:16.798171" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2026-05-13T09:15:16.798396" level="FAIL">Element with locator 'class:tier-title' not found.</msg>
+<arg>class:tier-title</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="FAIL" start="2026-05-13T09:15:16.650663" elapsed="0.148538">Element with locator 'class:tier-title' not found.</status>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>class:ranking-list</arg>
+<arg>timeout=15s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.799481" elapsed="0.000054"/>
+</kw>
+<kw name="Page Should Contain Element" owner="SeleniumLibrary">
+<arg>xpath=//div[contains(@class, 'ranking-card')]</arg>
+<arg>limit=10</arg>
+<doc>Verifies that element ``locator`` is found on the current page.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.799695" elapsed="0.000038"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<arg>xpath=//div[contains(@class, 'ranking-card')][1]</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.799862" elapsed="0.000033"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<arg>xpath=//div[contains(@class, 'ranking-card')][1]</arg>
+<arg>Twinkling Watermelon</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.800039" elapsed="0.000032"/>
+</kw>
+<kw name="Element Should Contain" owner="SeleniumLibrary">
+<arg>xpath=//div[contains(@class, 'ranking-card')][1]</arg>
+<arg>10.0</arg>
+<doc>Verifies that element ``locator`` contains text ``expected``.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.800179" elapsed="0.000030"/>
+</kw>
+<kw name="Capture Page Screenshot" owner="SeleniumLibrary">
+<arg>qa-reports/latest_ranking_structure.png</arg>
+<doc>Takes a screenshot of the current page and embeds it into a log file.</doc>
+<status status="NOT RUN" start="2026-05-13T09:15:16.800330" elapsed="0.000030"/>
+</kw>
+<kw name="Close Browser" owner="SeleniumLibrary" type="TEARDOWN">
+<doc>Closes the current browser.</doc>
+<status status="PASS" start="2026-05-13T09:15:16.800676" elapsed="0.061799"/>
+</kw>
+<doc>ตรวจสอบหน้าแรกและโครงสร้างตาราง Ranking ในหน้า Collection</doc>
+<status status="FAIL" start="2026-05-13T09:15:08.692534" elapsed="8.170090">Element with locator 'class:tier-title' not found.</status>
+</test>
+<status status="FAIL" start="2026-05-13T09:15:08.382106" elapsed="8.481222"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Health Check" id="s1" pass="0" fail="1" skip="0">Health Check</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
