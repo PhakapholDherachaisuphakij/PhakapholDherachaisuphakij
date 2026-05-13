@@ -1,0 +1,29 @@
+name: Gitleaks Scan Report
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    name: Gitleaks Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Gitleaks Scan
+        uses: gitleaks/gitleaks-action@v2
+        continue-on-error: true # เจอจุดเสี่ยงแต่งานยังรันต่อได้ ไม่กระทบการ Deploy
+        id: gitleaks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITLEAKS_TOKEN }}
+
+      # ส่วนแสดง Report สรุปในหน้า Console ของ GitHub
+      - name: Display Scan Summary
+        run: |
+          echo "### 🛡️ Gitleaks Scan Result" >> $GITHUB_STEP_SUMMARY
+          echo "สแกนเมื่อ: $(date)" >> $GITHUB_STEP_SUMMARY
+          echo "ตรวจสอบประวัติทั้งหมด (Full History Scan)" >> $GITHUB_STEP_SUMMARY
